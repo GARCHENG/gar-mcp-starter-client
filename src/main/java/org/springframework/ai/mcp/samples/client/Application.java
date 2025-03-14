@@ -15,8 +15,6 @@
  */
 package org.springframework.ai.mcp.samples.client;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;
@@ -79,7 +77,8 @@ public class Application {
                 msgLsit.add(new UserMessage(input));
                 new Thread(() -> {
                     try {
-                        String content = chatClient.prompt(new Prompt(msgLsit)).call().content();
+                        ChatClient.CallResponseSpec call = chatClient.prompt(new Prompt(msgLsit)).call();
+                        String content = call.content();
                         resultMap.put("result", content);
                     } catch (Exception e) {
                         resultMap.put("result", "error:" + e.getMessage());
